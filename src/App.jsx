@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const API_KEY = "5ee823bbf9127e84fa4466ff7cfe4e47";
 const FREE_PLAN_MODE = true;
@@ -30,7 +30,7 @@ function prettyDate(value) {
 }
 
 function getEndpointPath(endpoint) {
-  return `/weatherstack/${endpoint}`;
+  return `/api/weatherstack/${endpoint}`;
 }
 
 async function parseApiResponse(response) {
@@ -41,7 +41,7 @@ async function parseApiResponse(response) {
 
   await response.text();
   throw new Error(
-    `Unexpected upstream response (${response.status}). This deployment must proxy /weatherstack/* to api.weatherstack.com.`
+    `Unexpected upstream response (${response.status}). This deployment must proxy /api/weatherstack/* to api.weatherstack.com.`
   );
 }
 

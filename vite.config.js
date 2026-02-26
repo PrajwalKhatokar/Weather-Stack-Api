@@ -5,10 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/weatherstack": {
+      "/api/weatherstack": {
         target: "http://api.weatherstack.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/weatherstack/, "")
+        rewrite: (path) => path.replace(/^\/api\/weatherstack/, "")
       }
     }
   }
