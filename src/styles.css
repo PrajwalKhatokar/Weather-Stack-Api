@@ -1,0 +1,241 @@
+:root {
+  --ink-1: #f6fbff;
+  --ink-2: #d7e5f3;
+  --ink-3: #92a8bc;
+  --surface-1: rgba(5, 17, 29, 0.58);
+  --surface-2: rgba(11, 31, 48, 0.36);
+  --stroke: rgba(157, 198, 228, 0.25);
+  --accent-1: #6ad7f5;
+  --accent-2: #0cb5c8;
+  --danger: #ff8585;
+  --bg-1: #07161f;
+  --bg-2: #0a2534;
+  --bg-3: #123c51;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--ink-1);
+  background:
+    radial-gradient(circle at 15% 15%, rgba(104, 233, 254, 0.15), transparent 36%),
+    radial-gradient(circle at 85% 20%, rgba(95, 177, 255, 0.14), transparent 42%),
+    linear-gradient(140deg, var(--bg-1), var(--bg-2) 44%, var(--bg-3));
+}
+
+.app-shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 1rem auto 2rem;
+  position: relative;
+}
+
+.ambient {
+  position: absolute;
+  pointer-events: none;
+  filter: blur(35px);
+  z-index: 0;
+}
+
+.ambient-left {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: rgba(67, 183, 255, 0.2);
+  top: 80px;
+  left: -40px;
+}
+
+.ambient-right {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(15, 205, 190, 0.18);
+  top: 40%;
+  right: -70px;
+}
+
+.panel {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: linear-gradient(160deg, var(--surface-1), var(--surface-2));
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  box-shadow: 0 24px 50px rgba(1, 6, 15, 0.45);
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  padding: 1.4rem 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.75vw, 1.65rem);
+}
+
+.eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent-1);
+}
+
+.meta {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  text-align: right;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.controls,
+.results {
+  padding: 1.2rem;
+}
+
+h2 {
+  margin: 0 0 0.95rem;
+  font-size: 1rem;
+  color: var(--ink-2);
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+label {
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+
+input,
+select,
+button {
+  border-radius: 10px;
+  border: 1px solid rgba(154, 200, 240, 0.24);
+  background: rgba(7, 20, 35, 0.58);
+  color: var(--ink-1);
+  padding: 0.62rem 0.72rem;
+  font-size: 0.92rem;
+}
+
+input::placeholder {
+  color: #9bb4c8;
+}
+
+input:focus,
+select:focus,
+button:focus {
+  outline: none;
+  border-color: rgba(89, 196, 241, 0.7);
+  box-shadow: 0 0 0 3px rgba(13, 179, 226, 0.2);
+}
+
+button {
+  width: 100%;
+  margin-top: 0.25rem;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(120deg, var(--accent-1), var(--accent-2));
+  border: none;
+  color: #012232;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.hint {
+  margin: 0.95rem 0 0;
+  font-size: 0.76rem;
+  color: var(--ink-3);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.metric {
+  border: 1px solid rgba(154, 200, 240, 0.22);
+  border-radius: 12px;
+  padding: 0.75rem;
+  background: rgba(2, 14, 24, 0.42);
+}
+
+.metric p {
+  margin: 0;
+  color: var(--ink-3);
+  font-size: 0.76rem;
+}
+
+.metric strong {
+  margin-top: 0.24rem;
+  display: block;
+  font-size: 0.94rem;
+}
+
+.placeholder {
+  color: var(--ink-3);
+}
+
+.error {
+  border: 1px solid rgba(255, 133, 133, 0.4);
+  background: rgba(138, 32, 32, 0.22);
+  color: #ffc4c4;
+  border-radius: 12px;
+  padding: 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.json-view {
+  margin: 0;
+  max-height: 54vh;
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(154, 200, 240, 0.2);
+  background: rgba(2, 12, 20, 0.78);
+  padding: 0.9rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #d8f2ff;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .meta {
+    text-align: left;
+  }
+}
