@@ -1,0 +1,8 @@
+﻿{
+  "rewrites": [
+    {
+      "source": "/weatherstack/:path*",
+      "destination": "https://api.weatherstack.com/:path*"
+    }
+  ]
+}

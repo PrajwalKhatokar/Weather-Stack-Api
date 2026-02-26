@@ -33,6 +33,18 @@ function getEndpointPath(endpoint) {
   return `/weatherstack/${endpoint}`;
 }
 
+async function parseApiResponse(response) {
+  const contentType = response.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    return response.json();
+  }
+
+  await response.text();
+  throw new Error(
+    `Unexpected upstream response (${response.status}). This deployment must proxy /weatherstack/* to api.weatherstack.com.`
+  );
+}
+
 function isEndpointAllowed(endpoint) {
   if (!FREE_PLAN_MODE) return true;
   const match = ENDPOINTS.find((item) => item.value === endpoint);
@@ -144,10 +156,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [showRawData, setShowRawData] = useState(false);
 
-  const summary = useMemo(
-    () => buildSummary(filters.endpoint, data),
-    [filters.endpoint, data]
-  );
+  const summary = useMemo(() => buildSummary(filters.endpoint, data), [filters.endpoint, data]);
 
   const setField = (field, value) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
@@ -178,13 +187,13 @@ export default function App() {
       const params = buildParams(filters);
       const endpointPath = getEndpointPath(filters.endpoint);
       const response = await fetch(`${endpointPath}?${params.toString()}`);
-      const payload = await response.json();
+      const payload = await parseApiResponse(response);
 
       if (!response.ok || payload.error) {
         if (payload?.error?.code === 605 && normalizedLanguage) {
           const retryParams = buildParams(filters, { omitLanguage: true });
           const retryResponse = await fetch(`${endpointPath}?${retryParams.toString()}`);
-          const retryPayload = await retryResponse.json();
+          const retryPayload = await parseApiResponse(retryResponse);
 
           if (!retryResponse.ok || retryPayload.error) {
             const retryMessage =
@@ -342,11 +351,7 @@ export default function App() {
             <div className="field-row">
               <div className="field-group">
                 <label htmlFor="units">Units</label>
-                <select
-                  id="units"
-                  value={filters.units}
-                  onChange={(e) => setField("units", e.target.value)}
-                >
+                <select id="units" value={filters.units} onChange={(e) => setField("units", e.target.value)}>
                   <option value="m">Metric</option>
                   <option value="s">Scientific</option>
                   <option value="f">Fahrenheit</option>
@@ -418,4 +423,3 @@ export default function App() {
     </div>
   );
 }
-
