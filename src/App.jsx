@@ -142,6 +142,7 @@ export default function App() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showRawData, setShowRawData] = useState(false);
 
   const summary = useMemo(
     () => buildSummary(filters.endpoint, data),
@@ -377,7 +378,18 @@ export default function App() {
         </section>
 
         <section className="panel results">
-          <h2>Live Output</h2>
+          <div className="results-head">
+            <h2>Live Output</h2>
+            {data && (
+              <button
+                type="button"
+                className="details-toggle"
+                onClick={() => setShowRawData((prev) => !prev)}
+              >
+                {showRawData ? "Hide Technical Data" : "Show Technical Data"}
+              </button>
+            )}
+          </div>
 
           {error && <div className="error">{error}</div>}
 
@@ -396,7 +408,7 @@ export default function App() {
             <p className="placeholder">Run a search to view weather intelligence.</p>
           )}
 
-          {data && (
+          {data && showRawData && (
             <pre className="json-view">
               <code>{JSON.stringify(data, null, 2)}</code>
             </pre>
